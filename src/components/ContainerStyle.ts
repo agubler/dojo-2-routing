@@ -1,7 +1,7 @@
 import { WidgetBase } from '@dojo/widget-core/WidgetBase';
 import { DNode } from '@dojo/widget-core/interfaces';
 import { v, w } from '@dojo/widget-core/d';
-import { Container } from '@dojo/widget-core/Container';
+import { Container } from '@dojo/widget-core/mixins/Container';
 
 import { Routing } from './../Routing';
 import MyWidget from './MyWidget';
@@ -50,7 +50,7 @@ const DRoute = Container(MyWidget, 'router-second', {
 const ERoute = Container(MyWidget, 'router-second', {
 	getProperties() {
 		return {
-			route: 'e',
+			route: 'e/{param}',
 			onEnter,
 			onExit
 		};

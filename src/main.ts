@@ -22,7 +22,7 @@ const routes = [
 						path: 'c',
 						children: [
 							{
-								path: 'e',
+								path: 'e/{param}',
 								children: [
 									{
 										path: 'f'
@@ -55,5 +55,5 @@ const root = document.querySelector('my-app') || undefined;
 const Projector = ProjectorMixin(App);
 const projector = new Projector();
 
-router.start();
 projector.append(root);
+router.start();

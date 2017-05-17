@@ -17,7 +17,7 @@ export default class ComponentStyle extends WidgetBase {
 					w(MyWidget, { label: 'a/b' }),
 					w(Routing, { route: 'c', onEnter, onExit  }, [
 						w(MyWidget, { label: 'a/b/c' }),
-						w(Routing, { route: 'e', onEnter, onExit  }, [
+						w(Routing, { route: 'e/{param}', onEnter, onExit  }, [
 							w(MyWidget, { label: 'a/b/c/e' }),
 							w(Routing, { route: 'f', onEnter, onExit  }, [
 								w(MyWidget, { label: 'a/b/c/e/f' })
