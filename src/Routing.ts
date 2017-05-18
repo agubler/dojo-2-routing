@@ -138,6 +138,10 @@ export class RouterInjector extends BaseInjector<RouterContext> {
 
 	private _route: string;
 
+	private _routeDetails: any = {
+		params: {}
+	};
+
 	private _onExit: Function;
 
 	/**
@@ -152,7 +156,9 @@ export class RouterInjector extends BaseInjector<RouterContext> {
 		});
 		this.own({
 			destroy: () => {
-				this._onExit && this._onExit(this._route);
+				if (this._isVisible) {
+					this._onExit && this._onExit(this._route);
+				}
 			}
 		});
 	}
@@ -178,8 +184,13 @@ export class RouterInjector extends BaseInjector<RouterContext> {
 					if (matched) {
 						const routeDetails = routeParams.get(route);
 
-						if (!this._isVisible) {
+						const paramsChanged = Object.keys(routeDetails.params).some((key) => {
+							return this._routeDetails.params[key] !== routeDetails.params[key];
+						});
+
+						if (!this._isVisible || paramsChanged) {
 							this._isVisible = true;
+							this._routeDetails = routeDetails;
 							onEnter && onEnter(route, routeDetails.params);
 						}
 						this._routerContext.depth = routeDetails.depth + 1;
