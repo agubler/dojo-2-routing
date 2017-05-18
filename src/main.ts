@@ -42,18 +42,54 @@ const routes = [
 
 registerRoutes(routes, router);
 
+const enterAction: string[] = [];
+const exitAction: string[] = [];
+
 export function onExit(route: string) {
-	console.log('exiting route', route);
+	let entry: string = route;
+
+	if (exitAction.length === 10) {
+		exitAction.shift();
+		exitAction.push(entry);
+	}
+	else {
+		exitAction.push(entry);
+	}
+
+	projector.setProperties({
+		enterAction: [ ...enterAction ],
+		exitAction: [ ...exitAction ]
+	});
 }
 
 export function onEnter(route: string, params: any) {
-	console.log('entering route', route, 'params', params);
+	let entry: string = route;
+	if (Object.keys(params).length > 0) {
+		entry = `${route} with params ${JSON.stringify(params)}`;
+	}
+
+	if (enterAction.length === 10) {
+		enterAction.shift();
+		enterAction.push(entry);
+	}
+	else {
+		enterAction.push(entry);
+	}
+
+	projector.setProperties({
+		enterAction: [ ...enterAction ],
+		exitAction: [ ...exitAction ]
+	});
 }
 
 const root = document.querySelector('my-app') || undefined;
 
 const Projector = ProjectorMixin(App);
 const projector = new Projector();
+projector.setProperties({
+	enterAction: [ ...enterAction ],
+	exitAction: [ ...exitAction ]
+});
 
 projector.append(root);
 router.start();
